@@ -1,0 +1,11 @@
+note over browser:
+User saves a note
+end note
+
+note over browser:
+Browser re-renders notes list
+including new saved note
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: {"message":"note created"}
