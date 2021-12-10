@@ -1,4 +1,9 @@
+note over browser:
+User saves a note
+end note
+
 browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server-->browser: HTTP RESPONSE - code 302
 
 browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
 server-->browser: HTML-code
