@@ -1,9 +1,12 @@
-const Countries = ({ countries }) => {
+const Countries = ({ countries, onClick }) => {
   if (countries.length > 10)
     return <div>Too many matches, specify another filter</div>;
   else if (countries.length > 1)
     return countries.map((country) => (
-      <div key={country.cca3}>{country.name.common}</div>
+      <div key={country.cca3}>
+        {country.name.common}{" "}
+        <button onClick={() => onClick(country.name.common)}>show</button>
+      </div>
     ));
   else if (countries.length === 1) {
     const country = countries[0];
