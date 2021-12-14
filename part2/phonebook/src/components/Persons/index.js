@@ -1,6 +1,6 @@
 import personService from "../../services/persons";
 
-const Persons = ({ persons, filter = "", setPersons }) => {
+const Persons = ({ persons, filter = "", setPersons, sendNotification }) => {
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -12,10 +12,18 @@ const Persons = ({ persons, filter = "", setPersons }) => {
           <button
             onClick={() => {
               if (window.confirm(`Delete ${person.name}?`)) {
-                personService.remove(person.id);
+                personService
+                  .remove(person.id)
+                  .catch(() =>
+                    sendNotification(
+                      `Information of ${person.name} has already been removed from server`,
+                      "error"
+                    )
+                  );
                 setPersons(
                   persons.filter((_person) => _person.id !== person.id)
                 );
+                sendNotification(`Removed ${person.name}`, "success");
               }
             }}
           >
