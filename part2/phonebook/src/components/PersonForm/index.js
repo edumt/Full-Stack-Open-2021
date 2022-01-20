@@ -16,19 +16,27 @@ const PersonForm = ({ persons, setPersons, sendNotification }) => {
         )
       ) {
         const id = persons.find((person) => person.name === newName).id;
-        personService.update(id, newPerson).then((updatedPerson) => {
-          setPersons([
-            ...persons.filter((person) => person.id !== id),
-            updatedPerson,
-          ]);
-          sendNotification(`Updated ${updatedPerson.name}`, "success");
-        });
+        personService
+          .update(id, newPerson)
+          .then((updatedPerson) => {
+            setPersons([
+              ...persons.filter((person) => person.id !== id),
+              updatedPerson,
+            ]);
+            sendNotification(`Updated ${updatedPerson.name}`, "success");
+          })
+          .catch((error) =>
+            sendNotification(error.response.data.error, "error")
+          );
       }
     } else
-      personService.create(newPerson).then((createdPerson) => {
-        setPersons([...persons, createdPerson]);
-        sendNotification(`Added ${createdPerson.name}`, "success");
-      });
+      personService
+        .create(newPerson)
+        .then((createdPerson) => {
+          setPersons([...persons, createdPerson]);
+          sendNotification(`Added ${createdPerson.name}`, "success");
+        })
+        .catch((error) => sendNotification(error.response.data.error, "error"));
     setNewName("");
     setNewNumber("");
   };
