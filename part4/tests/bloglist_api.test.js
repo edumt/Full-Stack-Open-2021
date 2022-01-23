@@ -49,25 +49,14 @@ test("a valid blog can be added ", async () => {
   expect(titles).toContain("Go To Statement Considered Harmful");
 });
 
-/* test("a specific blog is within the returned blogs", async () => {
-  const response = await api.get("/api/blogs");
+test("a blog without likes defaults to 0", async () => {
+  const newBlog = { ...helper.sampleBlog };
+  delete newBlog.likes;
 
-  const contents = response.body.map((r) => r.content);
+  const savedBlog = await api.post("/api/blogs").send(newBlog).expect(201);
 
-  expect(contents).toContain("Browser can execute only Javascript");
+  expect(savedBlog.likes).toBe(0);
 });
-
-test("blog without content is not added", async () => {
-  const newBlog = {
-    important: true,
-  };
-
-  await api.post("/api/blogs").send(newBlog).expect(400);
-
-  const blogsAtEnd = await helper.blogsInDb();
-
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
-}); */
 
 afterAll(() => {
   mongoose.connection.close();
