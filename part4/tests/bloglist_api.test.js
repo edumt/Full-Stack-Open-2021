@@ -55,7 +55,7 @@ test("a blog without likes defaults to 0", async () => {
 
   const savedBlog = await api.post("/api/blogs").send(newBlog).expect(201);
 
-  expect(savedBlog.likes).toBe(0);
+  expect(savedBlog.body.likes).toBe(0);
 });
 
 afterAll(() => {
