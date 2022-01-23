@@ -27,6 +27,12 @@ test("all blogs are returned", async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
+test("all blogs have an id attribute", async () => {
+  const blogs = await api.get("/api/blogs");
+
+  blogs.body.forEach((blog) => expect(blog.id).toBeDefined());
+});
+
 /* test("a specific blog is within the returned blogs", async () => {
   const response = await api.get("/api/blogs");
 
