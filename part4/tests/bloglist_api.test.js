@@ -83,6 +83,29 @@ describe("when there is initially some blogs saved", () => {
     });
   });
 
+  describe("updating a blog", () => {
+    test("with a valid id succeds", async () => {
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToUpdate = blogsAtStart[0];
+      const updatedLikes = 100 + Math.floor(100 * Math.random());
+      const updatedTitle = "updated likes: " + updatedLikes;
+      expect(blogToUpdate.title).not.toBe(updatedTitle);
+      expect(blogToUpdate.likes).not.toBe(updatedLikes);
+
+      await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send({ title: updatedTitle, likes: updatedLikes })
+        .expect(200);
+
+      const blogsAtEnd = await helper.blogsInDb();
+      const updatedBlog = blogsAtEnd.find(
+        (blog) => blog.id === blogToUpdate.id
+      );
+      expect(updatedBlog.title).toBe(updatedTitle);
+      expect(updatedBlog.likes).toBe(updatedLikes);
+    });
+  });
+
   describe("deletion of a blog", () => {
     test("succeeds with status code 204 if id is valid", async () => {
       const blogsAtStart = await helper.blogsInDb();
