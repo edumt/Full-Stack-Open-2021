@@ -5,9 +5,14 @@ morgan.token("sent-data", function (req) {
   if (req.method === "POST") return JSON.stringify(req.body);
 });
 
-const requestLogger = morgan(
-  ":method :url :status :res[content-length] - :response-time ms :sent-data"
-);
+/* eslint-disable */
+const requestLogger =
+  process.env.NODE_ENV !== "test"
+    ? morgan(
+        ":method :url :status :res[content-length] - :response-time ms :sent-data"
+      )
+    : (req, res, next) => next();
+/* eslint-enable */
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
