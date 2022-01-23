@@ -58,6 +58,21 @@ test("a blog without likes defaults to 0", async () => {
   expect(savedBlog.body.likes).toBe(0);
 });
 
+test("a blog without title and/or url can't be created", async () => {
+  const missingTitleBlog = { ...helper.sampleBlog };
+  delete missingTitleBlog.title;
+  await api.post("/api/blogs").send(missingTitleBlog).expect(400);
+
+  const missingUrlBlog = { ...helper.sampleBlog };
+  delete missingUrlBlog.url;
+  await api.post("/api/blogs").send(missingUrlBlog).expect(400);
+
+  const missingTitleUrlBlog = { ...helper.sampleBlog };
+  delete missingTitleUrlBlog.title;
+  delete missingTitleUrlBlog.url;
+  await api.post("/api/blogs").send(missingTitleUrlBlog).expect(400);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
