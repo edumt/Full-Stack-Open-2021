@@ -11,8 +11,26 @@ const favoriteBlog = (blogs) => {
   return blogs[favoriteIndex];
 };
 
+const mostBlogs = (blogs) => {
+  const authorsBlogsCount = blogs.reduce((map, blog) => {
+    map[blog.author] = (map[blog.author] || 0) + 1;
+    return map;
+  }, {});
+
+  const mostBlogsAuthor = Object.keys(authorsBlogsCount).reduce(
+    (potentialMostBlogsAuthor, nextAuthor) =>
+      authorsBlogsCount[potentialMostBlogsAuthor] >
+      authorsBlogsCount[nextAuthor]
+        ? potentialMostBlogsAuthor
+        : nextAuthor
+  );
+
+  return { author: mostBlogsAuthor, blogs: authorsBlogsCount[mostBlogsAuthor] };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
