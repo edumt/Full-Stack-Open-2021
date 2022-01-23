@@ -33,19 +33,8 @@ test("all blogs have an id attribute", async () => {
   blogs.body.forEach((blog) => expect(blog.id).toBeDefined());
 });
 
-/* test("a specific blog is within the returned blogs", async () => {
-  const response = await api.get("/api/blogs");
-
-  const contents = response.body.map((r) => r.content);
-
-  expect(contents).toContain("Browser can execute only Javascript");
-});
-
 test("a valid blog can be added ", async () => {
-  const newBlog = {
-    content: "async/await simplifies making async calls",
-    important: true,
-  };
+  const newBlog = helper.sampleBlog;
 
   await api
     .post("/api/blogs")
@@ -56,8 +45,16 @@ test("a valid blog can be added ", async () => {
   const blogsAtEnd = await helper.blogsInDb();
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
-  const contents = blogsAtEnd.map((n) => n.content);
-  expect(contents).toContain("async/await simplifies making async calls");
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  expect(titles).toContain("Go To Statement Considered Harmful");
+});
+
+/* test("a specific blog is within the returned blogs", async () => {
+  const response = await api.get("/api/blogs");
+
+  const contents = response.body.map((r) => r.content);
+
+  expect(contents).toContain("Browser can execute only Javascript");
 });
 
 test("blog without content is not added", async () => {
