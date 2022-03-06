@@ -9,6 +9,13 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
+
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      // blogService.setToken(user.token)
+    }
   }, []);
 
   return (
@@ -16,7 +23,7 @@ const App = () => {
       {user === null ? (
         <Login setUser={setUser} />
       ) : (
-        <Blogs blogs={blogs} user={user} />
+        <Blogs blogs={blogs} user={user} setUser={setUser} />
       )}
     </div>
   );

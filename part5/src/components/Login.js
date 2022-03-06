@@ -12,9 +12,10 @@ const Login = ({ setUser }) => {
         username,
         password,
       });
-      setUser(user);
+      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       setUsername("");
       setPassword("");
+      setUser(user);
     } catch (exception) {
       // setErrorMessage('Wrong credentials')
       // setTimeout(() => {
