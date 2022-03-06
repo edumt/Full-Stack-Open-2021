@@ -1,10 +1,9 @@
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 
-const Blogs = ({ blogs, setBlogs, user, setUser }) => {
+const Blogs = ({ blogs, setBlogs, user, setUser, sendNotification }) => {
   return (
     <div>
-      <h2>blogs</h2>
       <p>
         {user.name} logged-in
         <button
@@ -16,7 +15,11 @@ const Blogs = ({ blogs, setBlogs, user, setUser }) => {
           logout
         </button>
       </p>
-      <BlogForm blogs={blogs} setBlogs={setBlogs} />
+      <BlogForm
+        blogs={blogs}
+        setBlogs={setBlogs}
+        sendNotification={sendNotification}
+      />
       <ul>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />

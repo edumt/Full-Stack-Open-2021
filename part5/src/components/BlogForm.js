@@ -1,30 +1,29 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const BlogForm = ({ blogs, setBlogs }) => {
+const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleBlogCreation = async (e) => {
     e.preventDefault();
     try {
       const createdBlog = await blogService.create({ title, author, url });
       setBlogs([...blogs, createdBlog]);
-    } catch (exception) {
-      // setErrorMessage('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
-      console.log(exception);
-      alert("something went wrong");
+      sendNotification(
+        `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
+        "success"
+      );
+    } catch (error) {
+      sendNotification(error.response.data.error, "error");
     }
   };
 
   return (
     <div>
       <h2>create new blog</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleBlogCreation}>
         <div>
           title:
           <input

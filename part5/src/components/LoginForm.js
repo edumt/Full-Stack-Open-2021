@@ -2,7 +2,7 @@ import { useState } from "react";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, sendNotification }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,12 +19,7 @@ const LoginForm = ({ setUser }) => {
       blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
-      // setErrorMessage('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
-      console.log(exception);
-      alert("something went wrong");
+      sendNotification("wrong username or password", "error");
     }
   };
 
