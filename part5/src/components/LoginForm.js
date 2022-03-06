@@ -1,7 +1,8 @@
 import { useState } from "react";
 import loginService from "../services/login";
+import blogService from "../services/blogs";
 
-const Login = ({ setUser }) => {
+const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,6 +16,7 @@ const Login = ({ setUser }) => {
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       setUsername("");
       setPassword("");
+      blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
       // setErrorMessage('Wrong credentials')
@@ -54,4 +56,4 @@ const Login = ({ setUser }) => {
   );
 };
 
-export default Login;
+export default LoginForm;

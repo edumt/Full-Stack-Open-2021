@@ -1,6 +1,7 @@
 import Blog from "./Blog";
+import BlogForm from "./BlogForm";
 
-const Blogs = ({ blogs, user, setUser }) => {
+const Blogs = ({ blogs, setBlogs, user, setUser }) => {
   return (
     <div>
       <h2>blogs</h2>
@@ -15,9 +16,12 @@ const Blogs = ({ blogs, user, setUser }) => {
           logout
         </button>
       </p>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <BlogForm blogs={blogs} setBlogs={setBlogs} />
+      <ul>
+        {blogs.map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+      </ul>
     </div>
   );
 };

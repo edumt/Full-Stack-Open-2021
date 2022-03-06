@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Blogs from "./components/Blogs";
-import Login from "./components/Login";
+import LoginForm from "./components/LoginForm";
 import blogService from "./services/blogs";
 
 const App = () => {
@@ -14,16 +14,23 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      // blogService.setToken(user.token)
+      blogService.setToken(user.token);
     }
   }, []);
 
   return (
     <div>
       {user === null ? (
-        <Login setUser={setUser} />
+        <LoginForm setUser={setUser} />
       ) : (
-        <Blogs blogs={blogs} user={user} setUser={setUser} />
+        <>
+          <Blogs
+            blogs={blogs}
+            setBlogs={setBlogs}
+            user={user}
+            setUser={setUser}
+          />
+        </>
       )}
     </div>
   );
