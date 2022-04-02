@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const buttonLabel = isContentVisible ? "hide" : "view";
 
@@ -21,7 +20,19 @@ const Blog = ({ blog }) => {
         <div>
           <p>{blog.url}</p>
           <p>
-            likes {blog.likes} <button>like</button>
+            likes {blog.likes}{" "}
+            <button
+              onClick={() =>
+                handleLike(blog.id, {
+                  title: blog.title,
+                  author: blog.author,
+                  url: blog.url,
+                  likes: blog.likes + 1,
+                })
+              }
+            >
+              like
+            </button>
           </p>
           <p>{blog.author}</p>
         </div>

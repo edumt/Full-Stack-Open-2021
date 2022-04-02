@@ -16,6 +16,16 @@ const App = () => {
     }, 3000);
   };
 
+  const handleLike = async (id, updatedBlog) => {
+    const savedBlog = await blogService.updateById(id, updatedBlog);
+    const updatedBlogIndex = blogs.findIndex(
+      (blog) => blog.id.toString() === savedBlog.id.toString(),
+    );
+    const newBlogs = [...blogs];
+    newBlogs[updatedBlogIndex].likes = savedBlog.likes;
+    setBlogs(newBlogs);
+  };
+
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
 
@@ -40,6 +50,7 @@ const App = () => {
           user={user}
           setUser={setUser}
           sendNotification={sendNotification}
+          handleLike={handleLike}
         />
       )}
     </div>

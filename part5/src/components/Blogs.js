@@ -3,7 +3,14 @@ import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import Togglable from "./Togglable";
 
-const Blogs = ({ blogs, setBlogs, user, setUser, sendNotification }) => {
+const Blogs = ({
+  blogs,
+  setBlogs,
+  user,
+  setUser,
+  sendNotification,
+  handleLike,
+}) => {
   const blogFormRef = useRef();
   return (
     <div>
@@ -28,7 +35,7 @@ const Blogs = ({ blogs, setBlogs, user, setUser, sendNotification }) => {
       </Togglable>
       <ul>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} handleLike={handleLike} />
         ))}
       </ul>
     </div>
