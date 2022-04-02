@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
+const BlogForm = ({ blogs, setBlogs, sendNotification, toggleVisibility }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -13,11 +13,12 @@ const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
       setBlogs([...blogs, createdBlog]);
       sendNotification(
         `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
-        "success"
+        "success",
       );
     } catch (error) {
       sendNotification(error.response.data.error, "error");
     }
+    toggleVisibility();
   };
 
   return (
@@ -31,6 +32,7 @@ const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
             value={title}
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
+            required
           />
         </div>
         <div>
@@ -40,6 +42,7 @@ const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
             value={author}
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
+            required
           />
         </div>
         <div>
@@ -49,6 +52,7 @@ const BlogForm = ({ blogs, setBlogs, sendNotification }) => {
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
+            required
           />
         </div>
         <button type="submit">create</button>

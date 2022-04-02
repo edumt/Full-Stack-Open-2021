@@ -1,7 +1,10 @@
+import { useRef } from "react";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
+import Togglable from "./Togglable";
 
 const Blogs = ({ blogs, setBlogs, user, setUser, sendNotification }) => {
+  const blogFormRef = useRef();
   return (
     <div>
       <p>
@@ -15,11 +18,14 @@ const Blogs = ({ blogs, setBlogs, user, setUser, sendNotification }) => {
           logout
         </button>
       </p>
-      <BlogForm
-        blogs={blogs}
-        setBlogs={setBlogs}
-        sendNotification={sendNotification}
-      />
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <BlogForm
+          blogs={blogs}
+          setBlogs={setBlogs}
+          sendNotification={sendNotification}
+          toggleVisibility={() => blogFormRef.current.toggleVisibility()}
+        />
+      </Togglable>
       <ul>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
