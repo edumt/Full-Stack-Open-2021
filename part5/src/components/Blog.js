@@ -1,13 +1,31 @@
+import { useState } from "react";
+
 const Blog = ({ blog }) => {
-  const style = {
-    // color: 'grey',
-    paddingTop: "5px",
-    fontSize: "15px",
+  const [isContentVisible, setIsContentVisible] = useState(false);
+  const buttonLabel = isContentVisible ? "hide" : "view";
+
+  const toggleVisibility = () => setIsContentVisible(!isContentVisible);
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: "solid",
+    borderWidth: 1,
+    marginBottom: 5,
   };
 
   return (
-    <li style={style}>
-      {blog.title} | {blog.author}
+    <li style={blogStyle}>
+      {blog.title} <button onClick={toggleVisibility}>{buttonLabel}</button>
+      {isContentVisible && (
+        <div>
+          <p>{blog.url}</p>
+          <p>
+            likes {blog.likes} <button>like</button>
+          </p>
+          <p>{blog.author}</p>
+        </div>
+      )}
     </li>
   );
 };
