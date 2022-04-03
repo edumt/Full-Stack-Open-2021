@@ -2,6 +2,7 @@ import { useRef } from "react";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import Togglable from "./Togglable";
+import blogService from "../services/blogs";
 
 const Blogs = ({
   blogs,
@@ -13,6 +14,21 @@ const Blogs = ({
   handleRemove,
 }) => {
   const blogFormRef = useRef();
+  const handleBlogCreation = async (e, blog) => {
+    e.preventDefault();
+    try {
+      const createdBlog = await blogService.create(blog);
+      setBlogs([...blogs, createdBlog]);
+      sendNotification(
+        `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
+        "success",
+      );
+    } catch (error) {
+      sendNotification(error.response.data.error, "error");
+    }
+    blogFormRef.current.toggleVisibility();
+  };
+
   return (
     <div>
       <p>
@@ -31,7 +47,7 @@ const Blogs = ({
           blogs={blogs}
           setBlogs={setBlogs}
           sendNotification={sendNotification}
-          toggleVisibility={() => blogFormRef.current.toggleVisibility()}
+          handleBlogCreation={handleBlogCreation}
         />
       </Togglable>
       <ul>
