@@ -32,3 +32,14 @@ test("expands content when view button is clicked", () => {
   screen.getByText(blog.url);
   screen.getByText(`likes ${blog.likes}`);
 });
+
+test("like button is clicked twice", () => {
+  const mockHandler = jest.fn();
+  render(<Blog blog={blog} user={user} handleLike={mockHandler} />);
+  const toggleButton = screen.getByText("view");
+  userEvent.click(toggleButton);
+  const likeButton = screen.getByText("like");
+  userEvent.click(likeButton);
+  userEvent.click(likeButton);
+  expect(mockHandler.mock.calls).toHaveLength(2);
+});
