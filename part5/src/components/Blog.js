@@ -1,5 +1,5 @@
 import { useState } from "react";
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleRemove, user }) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const buttonLabel = isContentVisible ? "hide" : "view";
 
@@ -35,6 +35,11 @@ const Blog = ({ blog, handleLike }) => {
             </button>
           </p>
           <p>{blog.author}</p>
+          {blog.user.username === user.username && (
+            <p>
+              <button onClick={() => handleRemove(blog)}>remove</button>
+            </p>
+          )}
         </div>
       )}
     </li>

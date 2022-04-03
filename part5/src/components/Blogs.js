@@ -10,6 +10,7 @@ const Blogs = ({
   setUser,
   sendNotification,
   handleLike,
+  handleRemove,
 }) => {
   const blogFormRef = useRef();
   return (
@@ -35,7 +36,13 @@ const Blogs = ({
       </Togglable>
       <ul>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} handleLike={handleLike} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={handleLike}
+            handleRemove={handleRemove}
+            user={user}
+          />
         ))}
       </ul>
     </div>

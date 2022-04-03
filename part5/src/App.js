@@ -26,6 +26,17 @@ const App = () => {
     setBlogs(newBlogs);
   };
 
+  const handleRemove = async (blogToBeDeleted) => {
+    if (
+      window.confirm(
+        `Remove blog "${blogToBeDeleted.title}" by ${blogToBeDeleted.author}?`,
+      )
+    ) {
+      await blogService.deleteById(blogToBeDeleted.id);
+      setBlogs(blogs.filter((blog) => blog.id !== blogToBeDeleted.id));
+    }
+  };
+
   useEffect(() => {
     blogService
       .getAll()
@@ -53,6 +64,7 @@ const App = () => {
           setUser={setUser}
           sendNotification={sendNotification}
           handleLike={handleLike}
+          handleRemove={handleRemove}
         />
       )}
     </div>
