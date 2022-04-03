@@ -15,7 +15,8 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
 
   return (
     <li style={blogStyle}>
-      {blog.title} <button onClick={toggleVisibility}>{buttonLabel}</button>
+      {blog.title} | {blog.author}{" "}
+      <button onClick={toggleVisibility}>{buttonLabel}</button>
       {isContentVisible && (
         <div>
           <p>{blog.url}</p>
@@ -34,7 +35,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
               like
             </button>
           </p>
-          <p>{blog.author}</p>
+          <p>{blog.user.name}</p>
           {blog.user.username === user.username && (
             <p>
               <button onClick={() => handleRemove(blog)}>remove</button>
