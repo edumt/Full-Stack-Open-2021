@@ -3,7 +3,7 @@ const Notification = ({ notification }) => {
     return null;
   }
 
-  let style = {
+  const style = {
     backgroundColor: "lightgrey",
     fontSize: "20px",
     padding: "10px",
@@ -15,7 +15,8 @@ const Notification = ({ notification }) => {
   };
 
   const applyColor = (color) => {
-    style = { ...style, color: color, borderColor: color };
+    style.color = color;
+    style.borderColor = color;
   };
 
   const { message, type } = notification;
