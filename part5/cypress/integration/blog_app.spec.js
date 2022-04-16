@@ -70,7 +70,7 @@ describe("Blog app", function () {
       cy.contains("likes 1");
     });
 
-    it.only("A blog can be removed", function () {
+    it("A blog can be removed", function () {
       const sampleBlog = {
         title: "Testing blog",
         author: "Cypress",
@@ -92,6 +92,41 @@ describe("Blog app", function () {
       cy.contains(
         `a new blog '${sampleBlog.title}' by '${sampleBlog.author}' added`,
       ).should("not.exist");
+    });
+
+    it("Blogs are ordered according to likes", function () {
+      const numberOfBlogs = 5;
+      const blogLikes = [...Array(numberOfBlogs)].map(
+        () => ~~(Math.random() * 1000),
+      );
+
+      blogLikes.forEach((likes) =>
+        cy.request({
+          method: "POST",
+          url: "http://localhost:3003/api/blogs",
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loggedBlogappUser")).token
+            }`,
+          },
+          body: {
+            title: "Testing blog",
+            author: "Cypress",
+            url: "localhost:3000",
+            likes,
+          },
+        }),
+      );
+      cy.visit("http://localhost:3000");
+      for (let i = 0; i < numberOfBlogs; i++) {
+        cy.contains("view").click();
+      }
+      cy.get(".blog-likes").then((elements) => {
+        const sortedLikes = blogLikes.sort((a, b) => b - a);
+        for (let i = 0; i < numberOfBlogs; i++) {
+          expect(Number(elements[i].textContent)).to.equal(sortedLikes[i]);
+        }
+      });
     });
   });
 });
