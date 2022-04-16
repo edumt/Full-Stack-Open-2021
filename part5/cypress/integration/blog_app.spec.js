@@ -46,7 +46,7 @@ describe("Blog app", function () {
       });
     });
 
-    it("A blog can be created", function () {
+    it.only("A blog can be created and be liked", function () {
       const sampleBlog = {
         title: "Testing blog",
         author: "Cypress",
@@ -61,7 +61,13 @@ describe("Blog app", function () {
       cy.contains(
         `a new blog '${sampleBlog.title}' by '${sampleBlog.author}' added`,
       );
-      cy.contains(`${sampleBlog.title} | ${sampleBlog.author}`);
+      cy.contains(`${sampleBlog.title} | ${sampleBlog.author}`)
+        .contains("view")
+        .click();
+
+      cy.contains("likes 0");
+      cy.contains("like").click();
+      cy.contains("likes 1");
     });
   });
 });
