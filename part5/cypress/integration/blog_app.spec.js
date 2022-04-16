@@ -30,4 +30,38 @@ describe("Blog app", function () {
       cy.contains("wrong username or password");
     });
   });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.request("POST", "http://localhost:3003/api/login", {
+        username: "test",
+        name: "test",
+        password: "test",
+      }).then((response) => {
+        localStorage.setItem(
+          "loggedBlogappUser",
+          JSON.stringify(response.body),
+        );
+        cy.visit("http://localhost:3000");
+      });
+    });
+
+    it("A blog can be created", function () {
+      const sampleBlog = {
+        title: "Testing blog",
+        author: "Cypress",
+        url: "localhost:3000",
+      };
+      cy.contains("new blog").click();
+      cy.get("#blog-title").type(sampleBlog.title);
+      cy.get("#blog-author").type(sampleBlog.author);
+      cy.get("#blog-url").type(sampleBlog.url);
+      cy.get("#createBlog-button").click();
+
+      cy.contains(
+        `a new blog '${sampleBlog.title}' by '${sampleBlog.author}' added`,
+      );
+      cy.contains(`${sampleBlog.title} | ${sampleBlog.author}`);
+    });
+  });
 });
