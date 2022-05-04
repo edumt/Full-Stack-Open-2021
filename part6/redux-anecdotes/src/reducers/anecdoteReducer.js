@@ -33,12 +33,19 @@ const reducer = (state = initialState, action) => {
       );
 
     case 'NEW_ANECDOTE':
-      const newAnecdote = asObject(action.data);
+      const newAnecdote = asObject(action.data.content);
       return [...state, newAnecdote];
 
     default:
       return state;
   }
 };
+
+export const vote = (id) => ({ type: 'VOTE', data: { id } });
+
+export const createAnecdote = (content) => ({
+  type: 'NEW_ANECDOTE',
+  data: { content },
+});
 
 export default reducer;
