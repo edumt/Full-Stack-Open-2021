@@ -32,6 +32,10 @@ const reducer = (state = initialState, action) => {
         anecdote.id === votedAnecdote.id ? votedAnecdote : anecdote
       );
 
+    case 'NEW_ANECDOTE':
+      const newAnecdote = asObject(action.data);
+      return [...state, newAnecdote];
+
     default:
       return state;
   }
