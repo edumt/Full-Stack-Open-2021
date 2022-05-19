@@ -18,14 +18,13 @@ const notificationSlice = createSlice({
 export const { setNotification, removeNotification } =
   notificationSlice.actions;
 
-export const tempNotification = (text, timeInSeconds) => {
-  return (dispatch) => {
-    dispatch(setNotification(text));
-
-    setTimeout(() => {
-      dispatch(removeNotification());
-    }, timeInSeconds * 1000);
-  };
+let timeoutID = null;
+export const tempNotification = (text, timeInSeconds) => (dispatch) => {
+  dispatch(setNotification(text));
+  clearInterval(timeoutID);
+  timeoutID = setTimeout(() => {
+    dispatch(removeNotification());
+  }, timeInSeconds * 1000);
 };
 
 export default notificationSlice.reducer;
