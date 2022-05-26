@@ -83,9 +83,9 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const content = useField("text");
-  const author = useField("text");
-  const info = useField("text");
+  const [content, contentReset] = useField("text");
+  const [author, authorReset] = useField("text");
+  const [info, infoReset] = useField("text");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,9 +98,9 @@ const CreateNew = (props) => {
   };
 
   const handleReset = () => {
-    content.reset();
-    author.reset();
-    info.reset();
+    contentReset();
+    authorReset();
+    infoReset();
   };
 
   return (
