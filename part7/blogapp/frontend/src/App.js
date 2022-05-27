@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
@@ -7,14 +9,7 @@ import blogService from "./services/blogs";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
-
-  const sendNotification = (message, type) => {
-    setNotification({ message, type });
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
-  };
+  const notification = useSelector((state) => state.notification);
 
   const handleLike = async (id, updatedBlog) => {
     const savedBlog = await blogService.updateById(id, updatedBlog);
@@ -55,14 +50,13 @@ const App = () => {
       <h1 style={{ color: "green", fontStyle: "italic" }}>blogs</h1>
       <Notification notification={notification} />
       {user === null ? (
-        <LoginForm setUser={setUser} sendNotification={sendNotification} />
+        <LoginForm setUser={setUser} />
       ) : (
         <Blogs
           blogs={blogs}
           setBlogs={setBlogs}
           user={user}
           setUser={setUser}
-          sendNotification={sendNotification}
           handleLike={handleLike}
           handleRemove={handleRemove}
         />

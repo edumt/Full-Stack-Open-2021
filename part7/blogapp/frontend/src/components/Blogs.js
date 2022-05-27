@@ -1,4 +1,7 @@
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { tempNotification } from "../redux/reducers/notificationReducer";
+
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import Togglable from "./Togglable";
@@ -9,22 +12,30 @@ const Blogs = ({
   setBlogs,
   user,
   setUser,
-  sendNotification,
   handleLike,
   handleRemove,
 }) => {
   const blogFormRef = useRef();
+  const dispatch = useDispatch();
+
   const handleBlogCreation = async (e, blog) => {
     e.preventDefault();
     try {
       const createdBlog = await blogService.create(blog);
       setBlogs([...blogs, createdBlog]);
-      sendNotification(
-        `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
-        "success",
+      dispatch(
+        tempNotification({
+          message: `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
+          type: "success",
+        }),
       );
     } catch (error) {
-      sendNotification(error.response.data.error, "error");
+      dispatch(
+        tempNotification({
+          message: error.response.data.error,
+          type: "error",
+        }),
+      );
     }
     blogFormRef.current.toggleVisibility();
   };
@@ -46,7 +57,6 @@ const Blogs = ({
         <BlogForm
           blogs={blogs}
           setBlogs={setBlogs}
-          sendNotification={sendNotification}
           handleBlogCreation={handleBlogCreation}
         />
       </Togglable>

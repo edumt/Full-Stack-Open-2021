@@ -16,7 +16,7 @@ module.exports = {
   },
   plugins: ["react", "jest", "cypress"],
   rules: {
-    indent: ["error", 2, { SwitchCase: 1 }],
+    indent: "off", // conflicts with prettier
     "linebreak-style": ["error", "windows"],
     quotes: ["error", "double"],
     semi: ["error", "always"],

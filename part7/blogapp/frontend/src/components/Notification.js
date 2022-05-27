@@ -1,7 +1,7 @@
 const Notification = ({ notification }) => {
-  if (notification === null) {
-    return null;
-  }
+  const { message, type } = notification;
+
+  if (message === "") return null;
 
   const style = {
     backgroundColor: "lightgrey",
@@ -19,7 +19,6 @@ const Notification = ({ notification }) => {
     style.borderColor = color;
   };
 
-  const { message, type } = notification;
   switch (type) {
     case "error":
       applyColor("red");
