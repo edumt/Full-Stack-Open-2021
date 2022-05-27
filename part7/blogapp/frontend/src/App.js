@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeBlogs, setBlogs } from "./redux/reducers/blogReducer";
 
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
@@ -7,9 +8,10 @@ import LoginForm from "./components/LoginForm";
 import blogService from "./services/blogs";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const blogs = useSelector((state) => state.blogs);
   const notification = useSelector((state) => state.notification);
+  const dispatch = useDispatch();
 
   const handleLike = async (id, updatedBlog) => {
     const savedBlog = await blogService.updateById(id, updatedBlog);
@@ -18,7 +20,7 @@ const App = () => {
     );
     const newBlogs = [...blogs];
     newBlogs[updatedBlogIndex].likes = savedBlog.likes;
-    setBlogs(newBlogs);
+    dispatch(setBlogs(newBlogs));
   };
 
   const handleRemove = async (blogToBeDeleted) => {
@@ -33,9 +35,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
+    dispatch(initializeBlogs());
 
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
@@ -54,7 +54,6 @@ const App = () => {
       ) : (
         <Blogs
           blogs={blogs}
-          setBlogs={setBlogs}
           user={user}
           setUser={setUser}
           handleLike={handleLike}

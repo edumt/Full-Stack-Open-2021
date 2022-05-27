@@ -1,20 +1,14 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { tempNotification } from "../redux/reducers/notificationReducer";
+import { setBlogs } from "../redux/reducers/blogReducer";
 
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import Togglable from "./Togglable";
 import blogService from "../services/blogs";
 
-const Blogs = ({
-  blogs,
-  setBlogs,
-  user,
-  setUser,
-  handleLike,
-  handleRemove,
-}) => {
+const Blogs = ({ blogs, user, setUser, handleLike, handleRemove }) => {
   const blogFormRef = useRef();
   const dispatch = useDispatch();
 
@@ -22,7 +16,7 @@ const Blogs = ({
     e.preventDefault();
     try {
       const createdBlog = await blogService.create(blog);
-      setBlogs([...blogs, createdBlog]);
+      dispatch(setBlogs([...blogs, createdBlog]));
       dispatch(
         tempNotification({
           message: `a new blog '${createdBlog.title}' by '${createdBlog.author}' added`,
