@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { likeBlog } from "../redux/reducers/blogReducer";
+import { likeBlog, removeBlog } from "../redux/reducers/blogReducer";
 
-const Blog = ({ blog, handleRemove, user }) => {
+const Blog = ({ blog, user }) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const buttonLabel = isContentVisible ? "hide" : "view";
   const dispatch = useDispatch();
@@ -46,7 +46,9 @@ const Blog = ({ blog, handleRemove, user }) => {
           <p>{blog.user.name}</p>
           {blog.user.username === user.username && (
             <p>
-              <button onClick={() => handleRemove(blog)}>remove</button>
+              <button onClick={() => dispatch(removeBlog(blog.id))}>
+                remove
+              </button>
             </p>
           )}
         </div>
