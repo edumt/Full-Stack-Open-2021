@@ -7,8 +7,9 @@ import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import Togglable from "./Togglable";
 import blogService from "../services/blogs";
+import { setUser } from "../redux/reducers/userReducer";
 
-const Blogs = ({ blogs, user, setUser, handleLike, handleRemove }) => {
+const Blogs = ({ blogs, user, handleLike, handleRemove }) => {
   const blogFormRef = useRef();
   const dispatch = useDispatch();
 
@@ -41,7 +42,7 @@ const Blogs = ({ blogs, user, setUser, handleLike, handleRemove }) => {
         <button
           onClick={() => {
             window.localStorage.removeItem("loggedBlogappUser");
-            setUser(null);
+            dispatch(setUser(null));
           }}
         >
           logout

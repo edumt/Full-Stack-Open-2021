@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { tempNotification } from "../redux/reducers/notificationReducer";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
+import { setUser } from "../redux/reducers/userReducer";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
@@ -17,11 +17,11 @@ const LoginForm = ({ setUser }) => {
         username,
         password,
       });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       setUsername("");
       setPassword("");
+      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(setUser(user));
     } catch (exception) {
       dispatch(
         tempNotification({
