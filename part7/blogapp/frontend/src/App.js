@@ -1,12 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs, setBlogs } from "./redux/reducers/blogReducer";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  // Link
+} from "react-router-dom";
 
-import Blogs from "./components/Blogs";
+import Blogs from "./pages/Blogs";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import blogService from "./services/blogs";
 import { setUser } from "./redux/reducers/userReducer";
+import Users from "./pages/Users";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -52,13 +59,36 @@ const App = () => {
       {user === null ? (
         <LoginForm setUser={setUser} />
       ) : (
-        <Blogs
-          blogs={blogs}
-          user={user}
-          setUser={setUser}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-        />
+        <>
+          <p>
+            {user.name} logged-in
+            <button
+              onClick={() => {
+                window.localStorage.removeItem("loggedBlogappUser");
+                dispatch(setUser(null));
+              }}
+            >
+              logout
+            </button>
+          </p>
+          <Router>
+            <Routes>
+              <Route path="/users" element={<Users />} />
+              <Route
+                path="/*"
+                element={
+                  <Blogs
+                    blogs={blogs}
+                    user={user}
+                    setUser={setUser}
+                    handleLike={handleLike}
+                    handleRemove={handleRemove}
+                  />
+                }
+              />
+            </Routes>
+          </Router>
+        </>
       )}
     </div>
   );

@@ -3,11 +3,10 @@ import { useDispatch } from "react-redux";
 import { tempNotification } from "../redux/reducers/notificationReducer";
 import { setBlogs } from "../redux/reducers/blogReducer";
 
-import Blog from "./Blog";
-import BlogForm from "./BlogForm";
-import Togglable from "./Togglable";
+import Blog from "../components/Blog";
+import BlogForm from "../components/BlogForm";
+import Togglable from "../components/Togglable";
 import blogService from "../services/blogs";
-import { setUser } from "../redux/reducers/userReducer";
 
 const Blogs = ({ blogs, user, handleLike, handleRemove }) => {
   const blogFormRef = useRef();
@@ -37,17 +36,6 @@ const Blogs = ({ blogs, user, handleLike, handleRemove }) => {
 
   return (
     <div>
-      <p>
-        {user.name} logged-in
-        <button
-          onClick={() => {
-            window.localStorage.removeItem("loggedBlogappUser");
-            dispatch(setUser(null));
-          }}
-        >
-          logout
-        </button>
-      </p>
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm
           blogs={blogs}
