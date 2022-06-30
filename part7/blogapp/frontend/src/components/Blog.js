@@ -1,7 +1,11 @@
 import { useState } from "react";
-const Blog = ({ blog, handleLike, handleRemove, user }) => {
+import { useDispatch } from "react-redux";
+import { likeBlog } from "../redux/reducers/blogReducer";
+
+const Blog = ({ blog, handleRemove, user }) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const buttonLabel = isContentVisible ? "hide" : "view";
+  const dispatch = useDispatch();
 
   const toggleVisibility = () => setIsContentVisible(!isContentVisible);
 
@@ -24,12 +28,16 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
             likes <span className="blog-likes">{blog.likes}</span>{" "}
             <button
               onClick={() =>
-                handleLike(blog.id, {
-                  title: blog.title,
-                  author: blog.author,
-                  url: blog.url,
-                  likes: blog.likes + 1,
-                })
+                dispatch(
+                  likeBlog({
+                    id: blog.id,
+                    title: blog.title,
+                    author: blog.author,
+                    url: blog.url,
+                    name: blog.name,
+                    likes: blog.likes + 1,
+                  }),
+                )
               }
             >
               like
