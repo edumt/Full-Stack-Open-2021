@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, useMatch } from "react-router-dom";
 import { initializeBlogs, setBlogs } from "./redux/reducers/blogReducer";
-import {
-  Routes,
-  Route,
-  useMatch,
-  // Link
-} from "react-router-dom";
 
-import Blogs from "./pages/Blogs";
-import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
+import Notification from "./components/Notification";
+import Blog from "./pages/Blog";
+import Blogs from "./pages/Blogs";
+import User from "./pages/User";
+import Users from "./pages/Users";
+import { setUser } from "./redux/reducers/userReducer";
 import blogService from "./services/blogs";
 import userService from "./services/users";
-import { setUser } from "./redux/reducers/userReducer";
-import Users from "./pages/Users";
-import User from "./pages/User";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -31,6 +27,11 @@ const App = () => {
   const viewedUserMatch = useMatch("/users/:id");
   const viewedUser = viewedUserMatch
     ? users.find((user) => user.id === viewedUserMatch.params.id)
+    : null;
+
+  const viewedBlogMatch = useMatch("/blogs/:id");
+  const viewedBlog = viewedBlogMatch
+    ? blogs.find((blog) => blog.id === viewedBlogMatch.params.id)
     : null;
 
   const handleLike = async (id, updatedBlog) => {
@@ -87,6 +88,10 @@ const App = () => {
           <Routes>
             <Route path="/users" element={<Users users={users} />} />
             <Route path="/users/:id" element={<User user={viewedUser} />} />
+            <Route
+              path="/blogs/:id"
+              element={<Blog blog={viewedBlog} user={user} />}
+            />
             <Route
               path="/*"
               element={

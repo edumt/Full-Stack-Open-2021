@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { tempNotification } from "../redux/reducers/notificationReducer";
 import { setBlogs } from "../redux/reducers/blogReducer";
 
-import Blog from "../components/Blog";
 import BlogForm from "../components/BlogForm";
 import Togglable from "../components/Togglable";
 import blogService from "../services/blogs";
+import { Link } from "react-router-dom";
 
-const Blogs = ({ blogs, user, handleLike, handleRemove }) => {
+const Blogs = ({ blogs }) => {
   const blogFormRef = useRef();
   const dispatch = useDispatch();
 
@@ -45,13 +45,11 @@ const Blogs = ({ blogs, user, handleLike, handleRemove }) => {
       </Togglable>
       <ul>
         {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike={handleLike}
-            handleRemove={handleRemove}
-            user={user}
-          />
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.name} {blog.author}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>
