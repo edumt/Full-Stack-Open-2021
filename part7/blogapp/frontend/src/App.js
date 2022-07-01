@@ -12,6 +12,7 @@ import Users from "./pages/Users";
 import { setUser } from "./redux/reducers/userReducer";
 import blogService from "./services/blogs";
 import userService from "./services/users";
+import Header from "./components/Header";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -66,25 +67,14 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ color: "green", fontStyle: "italic" }}>blogs</h1>
-      <Notification notification={notification} />
-      {user === null ? (
-        <LoginForm setUser={setUser} />
-      ) : (
-        <>
-          <p>
-            {user.name} logged-in
-            <button
-              onClick={() => {
-                window.localStorage.removeItem("loggedBlogappUser");
-                dispatch(setUser(null));
-              }}
-            >
-              logout
-            </button>
-          </p>
-
+    <>
+      <Header user={user} />
+      <div>
+        <h1 style={{ color: "green", fontStyle: "italic" }}>blogs</h1>
+        <Notification notification={notification} />
+        {user === null ? (
+          <LoginForm setUser={setUser} />
+        ) : (
           <Routes>
             <Route path="/users" element={<Users users={users} />} />
             <Route path="/users/:id" element={<User user={viewedUser} />} />
@@ -105,9 +95,9 @@ const App = () => {
               }
             />
           </Routes>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
