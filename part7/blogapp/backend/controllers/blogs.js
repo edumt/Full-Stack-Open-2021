@@ -45,4 +45,12 @@ blogsRouter.delete("/:id", async (request, response) => {
   } else response.status(403).end();
 });
 
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const blog = await Blog.findById(request.params.id);
+  const { comment } = request.body;
+  if (comment) blog.comments.push(comment);
+  blog.save();
+  response.json(blog);
+});
+
 module.exports = blogsRouter;
