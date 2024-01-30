@@ -20,6 +20,6 @@ export function calculateBmi(height: number, weight: number): string {
   }
 }
 
-const [, , height, weight] = process.argv;
+// const [, , height, weight] = process.argv;
 
-console.log(calculateBmi(+height, +weight));
+// console.log(calculateBmi(+height, +weight));

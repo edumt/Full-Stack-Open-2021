@@ -8,7 +8,10 @@ interface Result {
   average: number;
 }
 
-function calculateExercises(dailyHours: number[], target: number): Result {
+export function calculateExercises(
+  dailyHours: number[],
+  target: number
+): Result {
   const periodLength = dailyHours.length;
   const trainingDays = dailyHours.filter(Boolean).length;
   const average = dailyHours.reduce((a, b) => a + b, 0) / periodLength;
@@ -32,6 +35,6 @@ function calculateExercises(dailyHours: number[], target: number): Result {
   };
 }
 
-const [, , target, ...hours] = process.argv;
+// const [, , target, ...hours] = process.argv;
 
-console.log(calculateExercises(hours.map(Number), +target));
+// console.log(calculateExercises(hours.map(Number), +target));
