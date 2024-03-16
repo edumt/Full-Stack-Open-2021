@@ -26,4 +26,6 @@ module.exports = {
     ],
     "no-case-declarations": "off"
   },
+  project: path.join(__dirname, "tsconfig.json")
+
 }
