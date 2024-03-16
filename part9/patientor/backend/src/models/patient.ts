@@ -1,11 +1,15 @@
-export type Patient = {
-  id: string;
-  name: string;
-  dateOfBirth: string;
-  ssn: string;
-  gender: string;
-  occupation: string;
-};
+import { z } from "zod";
+
+export const patientSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  dateOfBirth: z.string(),
+  ssn: z.string(),
+  gender: z.enum(["male", "female", "other"]),
+  occupation: z.string(),
+});
+
+export type Patient = z.infer<typeof patientSchema>;
 
 const patients: Patient[] = [
   {

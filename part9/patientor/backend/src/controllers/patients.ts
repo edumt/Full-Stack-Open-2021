@@ -1,6 +1,7 @@
 import { Router } from "express";
-import crypto from "node:crypto";
-import patients, { Patient } from "../models/patient";
+import { randomUUID } from "node:crypto";
+import patients, { Patient, patientSchema } from "../models/patient";
+import { ZodError } from "zod";
 
 const patientsRouter = Router();
 
@@ -19,18 +20,17 @@ patientsRouter.get("/", (_, res) => {
 });
 
 patientsRouter.post("/", (req, res) => {
-  const body = req.body as Omit<Patient, "id">; // unsafe type cast
-  const patient: Patient = {
-    id: crypto.randomUUID(),
-    name: body.name,
-    occupation: body.occupation,
-    ssn: body.ssn,
-    dateOfBirth: body.dateOfBirth,
-    gender: body.gender,
-  };
-
-  patients.push(patient);
-  res.json(req.body);
+  try {
+    const patient = patientSchema.parse({ ...req.body, id: randomUUID() });
+    patients.push(patient);
+    res.json(req.body);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      res.status(400).send(error.message);
+    } else {
+      throw error;
+    }
+  }
 });
 
 export default patientsRouter;
